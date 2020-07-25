@@ -4,11 +4,25 @@
 
 console.log('sketch blah');
 
+function click(e) {
+  chrome.tabs.executeScript(null,
+      {code:"document.body.style.backgroundColor='" + e.target.id + "'"});
+  window.close();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  var divs = document.querySelectorAll('div');
+  for (var i = 0; i < divs.length; i++) {
+    divs[i].addEventListener('click', click);
+  }
+});
+
+
 var s = function(sketch) {
   sketch.setup = function() {
     document.body.style['userSelect'] = 'none';
     let h = document.body.clientHeight;
-    let c = sketch.createCanvas(sketch.windowWidth, sketch.windowHeight);
+    let c = sketch.createCanvas(sketch.windowWidth, h);
     c.position(0, 0);
     c.style('pointer-events', 'none');
     sketch.clear();
