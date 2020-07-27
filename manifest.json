@@ -20,7 +20,7 @@
     "Sketch/ground.png"
   ],
   "browser_action": {
-      "default_title": "Set how long you want your break to be",
+      "default_title": "Set how long you want your break and study/screen time to be",
       "default_icon": "Sketch/icon.png",
       "default_popup": "Sketch/index.html"
   },

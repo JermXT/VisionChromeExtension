@@ -21,18 +21,19 @@ function gotMessage(message, sender, sendResponse) {
 }
 
 // sample P5 for implementing snowfalling
-let snow, img, move, ground, groundY;
+let snow, img, move, ground, groundY, pos, c;
 var s = function(sketch) {
   sketch.setup = function() {
     document.body.style['userSelect'] = 'none';
-    let h = document.body.clientHeight;
-    let c = sketch.createCanvas(sketch.windowWidth, h);
-    c.position(0, 0);
+    pos = 0;
+    //let h = document.body.clientHeight;
+    c = sketch.createCanvas(sketch.windowWidth, sketch.windowHeight);
+    c.position(0, pos);
     c.style('pointer-events', 'none');
-    //sketch.clear();
+    sketch.clear();
     //createCanvas(windowWidth - 20, windowHeight - 20);
-    move = 0.1; //about 5 min and 40 seconds
-    groundY = sketch.windowHeight;
+    move = 1; //about 10 seconds
+    groundY =0;
     
     //TODO: make it so that images can be accessed locally
     img = sketch.loadImage(
@@ -53,18 +54,28 @@ var s = function(sketch) {
     }
   };
 
+  sketch.mouseWheel = function(event){
+    if ((pos >= 0 && event.delta<0) || (pos < document.body.clientHeight-sketch.windowHeight && event.delta >0)){
+      pos += event.delta;
+    }
+    
+    console.log(pos,document.body.clientHeight-sketch.windowHeight);
+
+  };
+
   sketch.draw = function() {
-    sketch.background(255);
+    sketch.clear();
+    c.position(0, pos);
     sketch.fill(0);
     sketch.textSize(30);
     sketch.textAlign(sketch.CENTER, sketch.TOP);
     sketch.fill(51, 185, 229);
-    sketch.text(
-      "Break time! Rest your eyes, stand up, and move around until the snow fills the screen.",
-      0,
-      12,
-      sketch.windowWidth
-    );
+    // sketch.text(
+    //   "Break time! Rest your eyes, stand up, and move around until the snow fills the screen.",
+    //   0,
+    //   12,
+    //   sketch.windowWidth
+    // );
 
     for (let i = 0; i < snow.length; i++) {
       snow[i].fall();
@@ -74,7 +85,7 @@ var s = function(sketch) {
     sketch.image(ground, 0, groundY, sketch.windowWidth, sketch.windowHeight);
     sketch.fill(255);
     sketch.noStroke();
-    sketch.rect(0, groundY + 800, sketch.windowWidth, sketch.windowHeight);
+    sketch.rect(0, groundY + sketch.windowHeight, sketch.windowWidth, sketch.windowHeight);
     if (groundY <= -sketch.windowHeight / 1.3) {
       sketch.noLoop();
     }
@@ -83,7 +94,8 @@ var s = function(sketch) {
   class Snowflake {
     //snowflake class that animates and displays snowflakes
     constructor(one) {
-      this.x = Math.random(sketch.windowWidth);
+      this.x = Math.round(Math.random()*sketch.windowWidth);
+      
       this.y = -10;
       this.width = 100;
       this.height = 50;
@@ -96,7 +108,7 @@ var s = function(sketch) {
       this.y += this.fallSpeed;
       if (this.y > sketch.windowHeight) {
         this.y = 0;
-        this.x = Math.random(sketch.windowWidth);
+        this.x = Math.round(Math.random()*sketch.windowWidth);
       }
     }
   
