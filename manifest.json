@@ -1,21 +1,28 @@
 {
-  "manifest_version": 2,
   "name": "p5 sketch",
   "version": "0.1",
-  "permissions": [
-    "activeTab"
-  ],
-  "browser_action": {
-      "default_title": "Set this page's color.",
-      "default_icon": "icon.png",
-      "default_popup": "popup.html"
-  },
-  "manifest_version": 2,
   "content_scripts": [{
     "matches": [
       "<all_urls>"
     ],
-    "js": ["p5.js", "sketch.js"]
+    "js": ["p5.js", "content.js"]
 
-  }]
+  }],
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+  "background":{
+    "scripts": ["background.js"]
+  },
+  "web_accessible_resources": [
+    "Sketch/snowflake.png",
+    "Sketch/ground.png"
+  ],
+  "browser_action": {
+      "default_title": "Set how long you want your break to be",
+      "default_icon": "Sketch/icon.png",
+      "default_popup": "Sketch/index.html"
+  },
+  "manifest_version": 2
 }
