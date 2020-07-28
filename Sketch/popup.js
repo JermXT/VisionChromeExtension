@@ -14,7 +14,8 @@ let slider1,
   seconds,
   bMinutes,
   bSeconds,
-  exit;
+  exit,
+  timer;
 function setup(){
     createCanvas(500, 500);
     colorMode(HSB, 360, 100, 100);
@@ -22,7 +23,7 @@ function setup(){
     createSlider2();
     settings = false;
     studyTimerMode = false;
-    setInterval(timeIt, 1000);
+    
     messageBackground({"getData":true})
     //message to background
     //Testing code
@@ -30,7 +31,11 @@ function setup(){
     //messageBackground({"testing":true})
 }
 function draw() {
+    //console.log("settings: "+ settings+ " " + "studyTimerMode: "+ studyTimerMode)
+    //console.log("breaktimeLeft: " + bMinutes+ ":"+bSeconds)
+    //console.log("studytimeleft: " + minutes+ ":"+seconds)
     background(210, 20, 95);
+
   
     if (settings == false) {
       textAlign(LEFT);
@@ -39,16 +44,18 @@ function draw() {
         20,
         80
       );
+      messageBackground({"getData":true})
+      
       studyTime = slider1.value();
       textSize(14);
       text(`Screen time for ${studyTime} minutes`, 20, 150);
-  
+      
       breakTime = slider2.value();
       textSize(14);
       text(`Take a break for ${breakTime} minutes`, 20, 250);
   
-      studyTimeSec = studyTime * 60;
-      breakTimeSec = breakTime * 60;
+      //studyTimeSec = studyTime * 60;
+      //breakTimeSec = breakTime * 60;
       makeButton();
     }
     
@@ -64,7 +71,7 @@ function draw() {
     if (settings == true) {
       exitButton();
     }
-  
+    
     if (settings == true && studyTimerMode == true) {
       if (hours >= 1) {
         textAlign(CENTER);
@@ -106,6 +113,7 @@ function draw() {
     }
   
     if (settings == true && studyTimerMode == false) {
+      
       if (bMinutes > 1) {
         textAlign(CENTER);
         text(
@@ -170,6 +178,8 @@ function draw() {
       settings = true;
       studyTimerMode = true;
       messageBackground({"getData":false,"timerLength": studyTime, "breakLength": breakTime, "reset":true,"timerOn": true })
+     
+      
     }
     //Exit button
     else if (
@@ -186,29 +196,36 @@ function draw() {
   }
   
   function timeIt() {
-    if (studyTimeSec > 0) {
-      studyTimeSec--;
-    }
-    if (studyTimeSec == 0) {
-      studyTimeSec = studyTime * 60;
-      studyTimerMode = true;
-    }
+    
   
     if (studyTimerMode == false) {
       if (breakTimeSec > 0) {
         breakTimeSec--;
       }
-      if (breakTimeSec == 0) {
+      if (breakTimeSec <= 0) {
         studyTimerMode = false;
-        breakTimeSec = breakTime * 60;
+        //breakTimeSec = breakTime * 60;
+        
+
+        messageBackground({"getData":true,"breakTime":false})
+      }
+    }else{
+      if (studyTimeSec > 0) {
+        studyTimeSec--;
+      }
+      if (studyTimeSec == 0) {
+        //studyTimeSec = studyTime * 60;
+        messageBackground({"getData":true, "breakTime":true})
+        //studyTimerMode = true;
       }
     }
     hours = floor(studyTimeSec / 3600);
     minutes = floor(studyTimeSec / 60) - hours * 60;
     seconds = studyTimeSec % 60;
-  
+    
     bMinutes = floor(breakTimeSec / 60);
     bSeconds = breakTimeSec % 60;
+    
   }
   
 
@@ -227,16 +244,22 @@ function messageBackground(message){
         }else if(response.timerOn == true){
             settings = true;
             if(response.breakTime == true){
+                console.log("break time---------------------------------------")
                 //makes the popup display time left screen, with the words time left till studying
-                studyTimerMode = true;
+                studyTimerMode = false;
                 breakTimeSec = response.timeleft
+                clearInterval(timer)
+                timer = setInterval(timeIt, 1000);
             }else{
                 //makes the popup display time left screen, with the words time left till break
-                studyTimerMode = false;
+                console.log("correct first one")
+                studyTimerMode = true;
                 studyTimeSec = response.timeleft
+                clearInterval(timer)
+                timer = setInterval(timeIt, 1000);
             }
         }
-        response.timerLength
+        //response.timerLength
         //response will be time left in seconds : {timeleft: seconds}
 
       });
