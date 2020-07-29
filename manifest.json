@@ -5,7 +5,7 @@
     "matches": [
       "<all_urls>"
     ],
-    "js": ["p5.js", "content.js"]
+    "js": ["p5.js", "content.js", "p5.sound.js"]
 
   }],
   "permissions": [
@@ -17,7 +17,8 @@
   },
   "web_accessible_resources": [
     "Sketch/snowflake.png",
-    "Sketch/ground.png"
+    "Sketch/ground.png",
+    "christmas.mp3"
   ],
   "browser_action": {
       "default_title": "Maintain a healthy lifestyle with this chrome extension!",

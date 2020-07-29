@@ -1,12 +1,10 @@
-// Daniel Shiffman
-// http://codingtra.in
-// http://patreon.com/codingtrain
+
 
 console.log('sketch blah');
 
 console.log("Chrome extension go?");
 
-let stopNow, breakTime; 
+let stopNow, breakTime, playNow; 
 chrome.runtime.onMessage.addListener(gotMessage);
 
 function gotMessage(message, sender, sendResponse) {
@@ -14,22 +12,34 @@ function gotMessage(message, sender, sendResponse) {
     console.log("start animation")
     breakTime = message.breakLength * 60;
     stopNow = false;
+    playNow = true;
     var myp5 = new p5(s);
+    
     
   }else if(message.animation == false){
     console.log("stop animation");
     stopNow = true;
+    playNow = false;
     myp5 = null;
+   
   }
   
 }
 
 // sample P5 for implementing snowfalling
-let snow, img, move, ground, groundY, pos, c;
+let snow, img, move, ground, groundY, pos, c, music;
 var s = function(sketch) {
+  
+  sketch.preload = function() {
+    music = sketch.loadSound(
+      chrome.runtime.getURL('christmas.mp3')
+      );
+    
+  }
   sketch.setup = function() {
     document.body.style['userSelect'] = 'none';
     pos = 0;
+
     //let h = document.body.clientHeight;
     c = sketch.createCanvas(sketch.windowWidth, sketch.windowHeight);
     c.position(0, pos);
@@ -68,10 +78,18 @@ var s = function(sketch) {
   };
 
   sketch.draw = function() {
+    if (playNow == true) {
+      console.log("music is playing");
+      console.log(music)
+      music.play();
+    } else {
+      console.log("music is stopped");
+      music.stop();
+    };
     if (stopNow == true){
       sketch.remove();
       console.log("removed!");
-    }
+    };
     console.log("drawing");
     sketch.clear();
     c.position(0, pos);
@@ -79,12 +97,7 @@ var s = function(sketch) {
     sketch.textSize(30);
     sketch.textAlign(sketch.CENTER, sketch.TOP);
     sketch.fill(51, 185, 229);
-    // sketch.text(
-    //   "Break time! Rest your eyes, stand up, and move around until the snow fills the screen.",
-    //   0,
-    //   12,
-    //   sketch.windowWidth
-    // );
+  
 
     for (let i = 0; i < snow.length; i++) {
       snow[i].fall();
