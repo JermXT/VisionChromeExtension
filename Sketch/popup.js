@@ -87,6 +87,7 @@ function draw() {
             width / 2,
             height / 2
           );
+          
         }
       } else if (hours == 0 && minutes > 1) {
         textAlign(CENTER);
@@ -121,7 +122,7 @@ function draw() {
           width / 2,
           height / 2
         );
-        text("Rest your eyes, stand up, and move around until the snow fills the screen.",0, height/2 + 30, width );
+        text("Rest your eyes, stand up, and move around until the snow reaches the top of your screen.",0, height/2 + 30, width );
       } else if (bMinutes == 1) {
         textAlign(CENTER);
         text(
@@ -129,7 +130,7 @@ function draw() {
           width / 2,
           height / 2
         );
-        text("Rest your eyes, stand up, and move around until the snow fills the screen.",0, height/2 + 30, width );
+        text("Rest your eyes, stand up, and move around until the snow reaches the top of your screen.",0, height/2 + 30, width );
       } else if (bMinutes == 0) {
         textAlign(CENTER);
         text(
@@ -137,7 +138,7 @@ function draw() {
           width / 2,
           height / 2
         );
-        text("Rest your eyes, stand up, and move around until the snow fills the screen.",0, height/2 + 30, width );
+        text("Rest your eyes, stand up, and move around until the snow reaches the top of your screen",0, height/2 + 30, width );
       }
     }
   }

@@ -38,8 +38,8 @@ chrome.runtime.onMessage.addListener(
         } else {
             if (request.reset == true) {
                 //start timer
-                timerLength = request.timerLength-0.75    /// undo both the - 0,75 cus it derp things
-                breakLength = request.breakLength-0.75      
+                timerLength = request.timerLength-0.75    /// undo both the - 0,75 its for mkaing time faster
+                breakLength = request.breakLength-0.75     
                 
                 ticker = 0
                 clearInterval(tickerFunction);
@@ -76,7 +76,7 @@ function snowAnimation() {
     clearInterval(tickerFunction);
     ticker = 0
     tickerFunction = setInterval(function(){ticker +=1}, 1000)
-    messageContent({ "animation": true })
+    messageContent({ "animation": true, "breakLength":breakLength })
     breakTime = true
     console.log("sent")
 }

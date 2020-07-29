@@ -6,15 +6,19 @@ console.log('sketch blah');
 
 console.log("Chrome extension go?");
 
-
+let stopNow, breakTime; 
 chrome.runtime.onMessage.addListener(gotMessage);
 
 function gotMessage(message, sender, sendResponse) {
   if(message.animation==true){
     console.log("start animation")
+    breakTime = message.breakLength * 60;
+    stopNow = false;
     var myp5 = new p5(s);
     
   }else if(message.animation == false){
+    console.log("stop animation");
+    stopNow = true;
     myp5 = null;
   }
   
@@ -32,7 +36,7 @@ var s = function(sketch) {
     c.style('pointer-events', 'none');
     sketch.clear();
     //createCanvas(windowWidth - 20, windowHeight - 20);
-    move = 1; //about 10 seconds
+    move = 1/(breakTime/10); //about 10 seconds
     groundY =0;
     
     //TODO: make it so that images can be accessed locally
@@ -55,7 +59,7 @@ var s = function(sketch) {
   };
 
   sketch.mouseWheel = function(event){
-    if ((pos >= 0 && event.delta<0) || (pos < document.body.clientHeight-sketch.windowHeight && event.delta >0)){
+    if ((pos > 0 && event.delta<0) || (pos < document.body.clientHeight-sketch.windowHeight && event.delta >0)){
       pos += event.delta;
     }
     
@@ -64,6 +68,11 @@ var s = function(sketch) {
   };
 
   sketch.draw = function() {
+    if (stopNow == true){
+      sketch.remove();
+      console.log("removed!");
+    }
+    console.log("drawing");
     sketch.clear();
     c.position(0, pos);
     sketch.fill(0);
@@ -85,7 +94,7 @@ var s = function(sketch) {
     sketch.image(ground, 0, groundY, sketch.windowWidth, sketch.windowHeight);
     sketch.fill(255);
     sketch.noStroke();
-    sketch.rect(0, groundY + sketch.windowHeight, sketch.windowWidth, sketch.windowHeight);
+    sketch.rect(0, groundY + sketch.windowHeight-10, sketch.windowWidth, sketch.windowHeight);
     if (groundY <= -sketch.windowHeight / 1.3) {
       sketch.noLoop();
     }

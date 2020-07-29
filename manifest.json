@@ -1,5 +1,5 @@
 {
-  "name": "p5 sketch",
+  "name": "Time to Chill",
   "version": "0.1",
   "content_scripts": [{
     "matches": [
@@ -20,8 +20,8 @@
     "Sketch/ground.png"
   ],
   "browser_action": {
-      "default_title": "Set how long you want your break and study/screen time to be",
-      "default_icon": "Sketch/icon.png",
+      "default_title": "Maintain a healthy lifestyle with this chrome extension!",
+      "default_icon": "Sketch/snowflake-icon.png",
       "default_popup": "Sketch/index.html"
   },
   "manifest_version": 2
