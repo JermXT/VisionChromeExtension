@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(
                     sendResponse({ "timeleft": timeLeft, "timerOn": true, "breakTime": breakTime })
                 }
             } else {
-                sendResponse({ "timeleft": timeLeft, "timerOn": false, "breakTime": false })
+                sendResponse({ "timeleft": timeLeft, "timerOn": false, "breakTime": false });
             }
             
             
@@ -56,6 +56,7 @@ chrome.runtime.onMessage.addListener(
                 clearInterval(tickerFunction)
                 clearTimeout(timedSnowAnimation)//timer till snow animation
                 clearTimeout(startSnowAnimation)//timer of snow animation
+                messageContent({ "animation": false })
             }
             /*
             if (timerOn) {

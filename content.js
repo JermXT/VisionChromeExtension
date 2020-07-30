@@ -28,14 +28,10 @@ function gotMessage(message, sender, sendResponse) {
 
 // sample P5 for implementing snowfalling
 let snow, img, move, ground, groundY, pos, c, music;
+music = new Audio (chrome.runtime.getURL('christmas.mp3'));
 var s = function(sketch) {
   
-  sketch.preload = function() {
-    music = sketch.loadSound(
-      chrome.runtime.getURL('christmas.mp3')
-      );
     
-  }
   sketch.setup = function() {
     document.body.style['userSelect'] = 'none';
     pos = 0;
@@ -82,9 +78,10 @@ var s = function(sketch) {
       console.log("music is playing");
       console.log(music)
       music.play();
+      music.loop = true;
     } else {
       console.log("music is stopped");
-      music.stop();
+      music.pause();
     };
     if (stopNow == true){
       sketch.remove();
