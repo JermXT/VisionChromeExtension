@@ -35,19 +35,26 @@ function draw() {
     //console.log("breaktimeLeft: " + bMinutes+ ":"+bSeconds)
     //console.log("studytimeleft: " + minutes+ ":"+seconds)
     background(210, 20, 95);
-
-  
+    
+    textAlign(CENTER);
+    textSize(20)
+    text("Time to Chill", width/2, 40)
+    textSize(14)
+    
     if (settings == false) {
-      textAlign(LEFT);
+      textAlign(CENTER);
+      textStyle(BOLD);
+      textFont('Georgia');
       text(
         "Set your desired screen time and how long you want a break!",
-        20,
-        80
+        width/2,
+        85
       );
       messageBackground({"getData":true})
-      
+      textStyle(NORMAL);
       studyTime = slider1.value();
       textSize(14);
+      textAlign(LEFT);
       text(`Screen time for ${studyTime} minutes`, 20, 150);
       
       breakTime = slider2.value();
@@ -71,7 +78,7 @@ function draw() {
     if (settings == true) {
       exitButton();
     }
-    
+    textSize(16)
     if (settings == true && studyTimerMode == true) {
       if (hours >= 1) {
         textAlign(CENTER);
